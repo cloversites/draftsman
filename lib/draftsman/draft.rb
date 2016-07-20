@@ -165,6 +165,9 @@ class Draftsman::Draft < ActiveRecord::Base
     ActiveRecord::Base.transaction do
       case self.event
       when 'create', 'update'
+        # Destroy draft
+        self.destroy
+
         # Parents must be published too
         self.draft_publication_dependencies.each { |dependency| dependency.publish! }
 
@@ -192,8 +195,6 @@ class Draftsman::Draft < ActiveRecord::Base
         
         self.item.reload
 
-        # Destroy draft
-        self.destroy
       when 'destroy'
         self.item.destroy
       end
