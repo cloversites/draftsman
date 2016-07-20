@@ -10,6 +10,8 @@ class Draftsman::Draft < ActiveRecord::Base
   # Validations
   validates_presence_of :event
 
+  attr_accessor :disable_publication_of_dependencies
+
   def self.with_item_keys(item_type, item_id)
     scoped :conditions => { :item_type => item_type, :item_id => item_id }
   end
@@ -166,7 +168,7 @@ class Draftsman::Draft < ActiveRecord::Base
       case self.event
       when 'create', 'update'
         # Parents must be published too
-        self.draft_publication_dependencies.each { |dependency| dependency.publish! }
+        self.draft_publication_dependencies.each { |dependency| dependency.publish! } unless self.disable_publication_of_dependencies
 
         # Update drafts need to copy over data to main record
         self.item.attributes = self.reify.attributes if self.update?
@@ -189,7 +191,7 @@ class Draftsman::Draft < ActiveRecord::Base
           self.item.send("#{key}=", value)
         end
         self.item.save(:validate => false)
-        
+
         self.item.reload
 
         # Destroy draft
@@ -264,7 +266,7 @@ class Draftsman::Draft < ActiveRecord::Base
           self.item.class.where(:id => self.item).update_all "#{self.item.class.draft_association_name}_id".to_sym => nil,
                                                              self.item.class.trashed_at_attribute_name => nil
         end
-        
+
         self.destroy
       end
     end
