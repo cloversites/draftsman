@@ -315,4 +315,23 @@ describe Vanilla do
       end
     end
   end
+
+  describe 'latest_revision' do
+    context 'when there are no drafts' do
+      it 'should return the vanilla object' do
+        expect(vanilla.latest_revision).to eql vanilla
+      end
+    end
+
+    context 'when there is a draft' do
+      before do
+        vanilla.name = 'Tom'
+        vanilla.draft_creation
+      end
+
+      it 'should return the draft object' do
+        expect(vanilla.latest_revision).to eql vanilla.draft.reify
+      end
+    end
+  end
 end

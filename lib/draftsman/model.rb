@@ -190,6 +190,10 @@ module Draftsman
     end
 
     module InstanceMethods
+      def latest_revision
+        draft? ? draft.reify : self
+      end
+
       # Returns whether or not this item has a draft.
       def draft?
         send(self.class.draft_association_name).present?
