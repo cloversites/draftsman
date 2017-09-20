@@ -215,7 +215,7 @@ class Draftsman::Draft < ActiveRecord::Base
           require self.item_type.underscore
         end
 
-        model = item.reload unless ignore_reload
+        model = ignore_reload ? item : item.reload
 
         attrs = self.class.object_col_is_json? ? self.object : Draftsman.serializer.load(object)
         model.class.unserialize_attributes_for_draftsman attrs
