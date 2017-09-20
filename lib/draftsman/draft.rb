@@ -192,7 +192,7 @@ class Draftsman::Draft < ActiveRecord::Base
           self.item.send("#{key}=", value)
         end
         self.item.save(:validate => false)
-        
+
         self.item.reload
 
       when 'destroy'
@@ -206,7 +206,7 @@ class Draftsman::Draft < ActiveRecord::Base
   # Example usage:
   #
   #     `@category = @category.reify if @category.draft?`
-  def reify
+  def reify(ignore_reload=false)
     without_identity_map do
       if !self.previous_draft.nil?
         reify_previous_draft.reify
@@ -216,7 +216,7 @@ class Draftsman::Draft < ActiveRecord::Base
           require self.item_type.underscore
         end
 
-        model = item.reload
+        model = item.reload unless ignore_reload
 
         attrs = self.class.object_col_is_json? ? self.object : Draftsman.serializer.load(object)
         model.class.unserialize_attributes_for_draftsman attrs
@@ -265,7 +265,7 @@ class Draftsman::Draft < ActiveRecord::Base
           self.item.class.where(:id => self.item).update_all "#{self.item.class.draft_association_name}_id".to_sym => nil,
                                                              self.item.class.trashed_at_attribute_name => nil
         end
-        
+
         self.destroy
       end
     end
