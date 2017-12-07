@@ -4,11 +4,11 @@ require 'draftsman/version'
 Gem::Specification.new do |s|
   s.name          = 'draftsman'
   s.version       = Draftsman::VERSION
-  s.summary       = "Create draft versions of your ActiveRecord models' data. Works with Ruby on Rails and Sinatra."
-  s.description   = s.summary
-  s.homepage      = 'https://github.com/liveeditor/draftsman'
-  s.authors       = ['Chris Peters']
-  s.email         = 'chris@minimalorange.com'
+  s.summary       = 'Create draft versions of your database records.'
+  s.description   = "Stores draft versions of your ActiveRecord models' data in a single table or split up into separate tables. Works with Ruby on Rails and Sinatra."
+  s.homepage      = 'https://github.com/jmfederico/draftsman'
+  s.authors       = ['Chris Peters', 'Federico Jaramillo']
+  s.email         = ['chris@minimalorange.com', 'federicojaramillom@gmail.com']
   s.license       = 'MIT'
 
   s.files         = `git ls-files`.split("\n")
@@ -16,12 +16,12 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ['lib']
 
-  s.add_dependency 'activerecord', ['>= 3.0', '< 5.0']
+  s.add_dependency 'activerecord', ['>= 4.0', '< 5.2']
 
   s.add_development_dependency 'rake'
-  s.add_development_dependency 'railties', ['>= 3.0', '< 5.0']
+  s.add_development_dependency 'railties', ['>= 4.0', '< 5.2']
   s.add_development_dependency 'sinatra', '~> 1.0'
-  s.add_development_dependency 'rspec-rails', '3.2.1'
+  s.add_development_dependency 'rspec-rails', '~> 3.5'
 
   # JRuby support for the test ENV
   if defined?(JRUBY_VERSION)
