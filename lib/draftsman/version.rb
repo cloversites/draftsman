@@ -1,3 +1,3 @@
 module Draftsman
-  VERSION = '0.3.8'
+  VERSION = '0.7.0'
 end
