@@ -196,7 +196,7 @@ class Draftsman::Draft < ActiveRecord::Base
   # Example usage:
   #
   #     `@category = @category.draft.reify if @category.draft?`
-  def reify
+  def reify(ignore_reload = false)
     # This appears to be necessary if for some reason the draft's model
     # hasn't been loaded (such as when done in the console).
     unless defined? self.item_type
