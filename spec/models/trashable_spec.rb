@@ -3,24 +3,22 @@ require 'spec_helper'
 # A Trashable has a simple call to `has_drafts` without any options specified. The model also contains a `deleted_at`
 # attribute, which allows deletes to be drafts too.
 describe Trashable do
-  let(:trashable) { Trashable.new :name => 'Bob' }
+  let(:trashable) { Trashable.new name: 'Bob' }
 
-  it 'is draftable' do
-    expect(subject.class.draftable?).to eql true
+  describe '.draftable?' do
+    it 'is draftable' do
+      expect(subject.class.draftable?).to eql true
+    end
   end
 
   # Not affected by this customization
-  describe 'draft_creation' do
+  describe '#save_draft' do
   end
 
-  # Not affected by this customization
-  describe 'draft_update' do
-  end
-
-  describe 'draft_destroy' do
+  describe '#draft_destruction' do
     context 'with `:create` draft' do
-      before { trashable.draft_creation }
-      subject { trashable.draft_destroy; return trashable }
+      before { trashable.save_draft }
+      subject { trashable.draft_destruction; return trashable }
 
       it 'is persisted' do
         expect(subject).to be_persisted
@@ -81,10 +79,10 @@ describe Trashable do
         trashable.published_at = Time.now
         trashable.save!
         trashable.name = 'Sam'
-        trashable.draft_update
+        trashable.save_draft
       end
 
-      subject { trashable.draft_destroy; return trashable.reload }
+      subject { trashable.draft_destruction; return trashable.reload }
 
       it 'is persisted' do
         expect(subject).to be_persisted
@@ -145,8 +143,8 @@ describe Trashable do
         trashable.update_attributes! :published_at => Time.now
       end
 
-      subject { trashable.draft_destroy; return trashable.reload }
-      
+      subject { trashable.draft_destruction; return trashable.reload }
+
       it 'is persisted' do
         expect(subject).to be_persisted
       end
@@ -198,16 +196,16 @@ describe Trashable do
   end
 
   describe 'scopes' do
-    let!(:drafted_trashable)   { trashable.draft_creation; return trashable }
-    let!(:published_trashable) { Trashable.create :name => 'Jane', :published_at => Time.now }
-    let!(:trashed_trashable)   { Trashable.create :name => 'Ralph' }
+    let!(:drafted_trashable)   { trashable.save_draft; return trashable }
+    let!(:published_trashable) { Trashable.create(name: 'Jane', published_at: Time.now) }
+    let!(:trashed_trashable)   { Trashable.create(name: 'Ralph') }
 
     # Not affected by this customization
-    describe 'drafted' do
+    describe '.drafted' do
     end
 
-    describe 'live' do
-      before { trashed_trashable.draft_destroy }
+    describe '.live' do
+      before { trashed_trashable.draft_destruction }
       subject { Trashable.live }
 
       it 'returns 2 records' do
@@ -232,11 +230,11 @@ describe Trashable do
     end
 
     # Not affected by this customization
-    describe 'published' do
+    describe '.published' do
     end
 
-    describe 'trashed' do
-      before { trashed_trashable.draft_destroy }
+    describe '.trashed' do
+      before { trashed_trashable.draft_destruction }
       subject { Trashable.trashed }
 
       it 'returns 1 record' do

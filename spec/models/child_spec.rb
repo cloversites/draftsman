@@ -1,14 +1,14 @@
 require 'spec_helper'
 
-describe Child, :type => :model do
-  let(:parent) { Parent.new(:name => 'Marge') }
-  let(:child)  { Child.new(:name => 'Lisa', :parent => parent) }
+RSpec.describe Child, type: :model do
+  let(:parent) { Parent.new(name: 'Marge') }
+  let(:child)  { Child.new(name: 'Lisa', parent: parent) }
 
-  describe 'publish!' do
+  describe '#publish!' do
     context 'parent `create` draft with child `create` draft' do
       before do
-        parent.draft_creation
-        child.draft_creation
+        parent.save_draft
+        child.save_draft
       end
 
       subject { child.draft.publish! }
@@ -50,8 +50,8 @@ describe Child, :type => :model do
       before do
         parent.save!
         child.save!
-        child.draft_destroy
-        parent.draft_destroy
+        child.draft_destruction
+        parent.draft_destruction
       end
 
       subject { child.draft.publish! }
@@ -74,11 +74,11 @@ describe Child, :type => :model do
     end
   end
 
-  describe 'revert!' do
+  describe '#revert!' do
     context 'parent `create` draft with child `create` draft' do
       before do
-        parent.draft_creation
-        child.draft_creation
+        parent.save_draft
+        child.save_draft
       end
 
       subject { child.draft.revert! }
@@ -104,14 +104,14 @@ describe Child, :type => :model do
       before do
         parent.save!
         child.save!
-        child.draft_destroy
-        parent.draft_destroy
+        child.draft_destruction
+        parent.draft_destruction
       end
 
       subject do
         child.draft.revert!
         parent.reload
-        child.reload 
+        child.reload
       end
 
       it 'does not persist the child' do
@@ -150,11 +150,11 @@ describe Child, :type => :model do
     end
   end
 
-  describe 'draft_publication_dependencies' do
+  describe '#draft_publication_dependencies' do
     context 'parent `create` draft with child `create` draft' do
       before do
-        parent.draft_creation
-        child.draft_creation
+        parent.save_draft
+        child.save_draft
       end
 
       subject { child.draft }
@@ -170,10 +170,10 @@ describe Child, :type => :model do
 
     context 'parent `create` draft with child `update` draft' do
       before do
-        parent.draft_creation
+        parent.save_draft
         child.save!
         child.name = 'Heather'
-        child.draft_update
+        child.save_draft
       end
 
       subject { child.draft }
@@ -191,11 +191,11 @@ describe Child, :type => :model do
       let(:new_parent) { Parent.new(:name => 'Patty') }
 
       before do
-        parent.draft_creation
+        parent.save_draft
         child.save!
-        new_parent.draft_creation
+        new_parent.save_draft
         child.parent = new_parent
-        child.draft_update
+        child.save_draft
       end
 
       subject { child.draft }
@@ -216,7 +216,7 @@ describe Child, :type => :model do
     context 'parent `destroy` draft with child `destroy` draft' do
       before do
         child.save!
-        parent.draft_destroy
+        parent.draft_destruction
         child.reload
       end
 
@@ -228,11 +228,11 @@ describe Child, :type => :model do
     end
   end
 
-  describe 'draft_reversion_dependencies' do
+  describe '#draft_reversion_dependencies' do
     context 'parent `create` draft with child `create` draft' do
       before do
-        parent.draft_creation
-        child.draft_creation
+        parent.save_draft
+        child.save_draft
       end
 
       subject { child.draft }
@@ -245,7 +245,7 @@ describe Child, :type => :model do
     context 'parent `destroy` draft with child `destroy` draft' do
       before do
         child.save!
-        parent.draft_destroy
+        parent.draft_destruction
         child.reload
       end
 
