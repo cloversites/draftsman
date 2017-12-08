@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150408234937) do
+ActiveRecord::Schema.define(version: 20160328184419) do
 
   create_table "bastards", force: :cascade do |t|
     t.string   "name"
@@ -43,6 +43,7 @@ ActiveRecord::Schema.define(version: 20150408234937) do
     t.integer  "item_id"
     t.string   "event",          null: false
     t.string   "whodunnit"
+    t.integer  "user_id"
     t.text     "object"
     t.text     "object_changes"
     t.text     "previous_draft"
@@ -51,6 +52,21 @@ ActiveRecord::Schema.define(version: 20150408234937) do
     t.integer  "answer"
     t.string   "ip"
     t.string   "user_agent"
+  end
+
+  create_table "enumables", force: :cascade do |t|
+    t.integer  "status",       null: false
+    t.integer  "draft_id"
+    t.datetime "published_at"
+  end
+
+  create_table "moneybags", force: :cascade do |t|
+    t.integer  "price_cents",    default: 0,     null: false
+    t.string   "price_currency", default: "USD", null: false
+    t.integer  "draft_id"
+    t.datetime "published_at"
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
   end
 
   create_table "only_children", force: :cascade do |t|
