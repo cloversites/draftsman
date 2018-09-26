@@ -1,4 +1,4 @@
-class AddTalkativesTableToTests < ActiveRecord::Migration
+class AddTalkativesTableToTests < ActiveRecord::Migration[4.2]
   def self.up
     create_table :talkatives, :force => true do |t|
       t.string     :before_comment

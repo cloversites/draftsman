@@ -1,4 +1,4 @@
-class SetUpTestTables < ActiveRecord::Migration
+class SetUpTestTables < ActiveRecord::Migration[4.2]
   def self.up
     create_table :drafts, :force => true do |t|
       t.string  :item_type

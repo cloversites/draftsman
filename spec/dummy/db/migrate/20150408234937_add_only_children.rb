@@ -1,4 +1,4 @@
-class AddOnlyChildren < ActiveRecord::Migration
+class AddOnlyChildren < ActiveRecord::Migration[4.2]
   def up
     create_table :only_children, :force => true do |t|
       t.string     :name
