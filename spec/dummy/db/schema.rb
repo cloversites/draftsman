@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -11,19 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160328184419) do
+ActiveRecord::Schema.define(version: 20150408234937) do
 
   create_table "bastards", force: :cascade do |t|
-    t.string   "name"
-    t.integer  "parent_id"
+    t.string "name"
+    t.integer "parent_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "children", force: :cascade do |t|
-    t.string   "name"
-    t.integer  "parent_id"
-    t.integer  "draft_id"
+    t.string "name"
+    t.integer "parent_id"
+    t.integer "draft_id"
     t.datetime "trashed_at"
     t.datetime "published_at"
     t.datetime "created_at"
@@ -31,48 +30,32 @@ ActiveRecord::Schema.define(version: 20160328184419) do
   end
 
   create_table "draft_as_sketches", force: :cascade do |t|
-    t.string   "name"
-    t.integer  "sketch_id"
+    t.string "name"
+    t.integer "sketch_id"
     t.datetime "published_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "drafts", force: :cascade do |t|
-    t.string   "item_type"
-    t.integer  "item_id"
-    t.string   "event",          null: false
-    t.string   "whodunnit"
-    t.integer  "user_id"
-    t.text     "object"
-    t.text     "object_changes"
-    t.text     "previous_draft"
+    t.string "item_type"
+    t.integer "item_id"
+    t.string "event", null: false
+    t.string "whodunnit"
+    t.text "object"
+    t.text "object_changes"
+    t.text "previous_draft"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "answer"
-    t.string   "ip"
-    t.string   "user_agent"
-  end
-
-  create_table "enumables", force: :cascade do |t|
-    t.integer  "status",       null: false
-    t.integer  "draft_id"
-    t.datetime "published_at"
-  end
-
-  create_table "moneybags", force: :cascade do |t|
-    t.integer  "price_cents",    default: 0,     null: false
-    t.string   "price_currency", default: "USD", null: false
-    t.integer  "draft_id"
-    t.datetime "published_at"
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
+    t.integer "answer"
+    t.string "ip"
+    t.string "user_agent"
   end
 
   create_table "only_children", force: :cascade do |t|
-    t.string   "name"
-    t.integer  "parent_id"
-    t.integer  "draft_id"
+    t.string "name"
+    t.integer "parent_id"
+    t.integer "draft_id"
     t.datetime "trashed_at"
     t.datetime "published_at"
     t.datetime "created_at"
@@ -80,8 +63,8 @@ ActiveRecord::Schema.define(version: 20160328184419) do
   end
 
   create_table "parents", force: :cascade do |t|
-    t.string   "name"
-    t.integer  "draft_id"
+    t.string "name"
+    t.integer "draft_id"
     t.datetime "trashed_at"
     t.datetime "published_at"
     t.datetime "created_at"
@@ -89,9 +72,9 @@ ActiveRecord::Schema.define(version: 20160328184419) do
   end
 
   create_table "skippers", force: :cascade do |t|
-    t.string   "name"
-    t.string   "skip_me"
-    t.integer  "draft_id"
+    t.string "name"
+    t.string "skip_me"
+    t.integer "draft_id"
     t.datetime "trashed_at"
     t.datetime "published_at"
     t.datetime "created_at"
@@ -99,11 +82,11 @@ ActiveRecord::Schema.define(version: 20160328184419) do
   end
 
   create_table "talkatives", force: :cascade do |t|
-    t.string   "before_comment"
-    t.string   "around_early_comment"
-    t.string   "around_late_comment"
-    t.string   "after_comment"
-    t.integer  "draft_id"
+    t.string "before_comment"
+    t.string "around_early_comment"
+    t.string "around_late_comment"
+    t.string "after_comment"
+    t.integer "draft_id"
     t.datetime "trashed_at"
     t.datetime "published_at"
     t.datetime "created_at"
@@ -111,9 +94,9 @@ ActiveRecord::Schema.define(version: 20160328184419) do
   end
 
   create_table "trashables", force: :cascade do |t|
-    t.string   "name"
-    t.string   "title"
-    t.integer  "draft_id"
+    t.string "name"
+    t.string "title"
+    t.integer "draft_id"
     t.datetime "published_at"
     t.datetime "trashed_at"
     t.datetime "created_at"
@@ -121,17 +104,17 @@ ActiveRecord::Schema.define(version: 20160328184419) do
   end
 
   create_table "vanillas", force: :cascade do |t|
-    t.string   "name"
-    t.integer  "draft_id"
+    t.string "name"
+    t.integer "draft_id"
     t.datetime "published_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "whitelisters", force: :cascade do |t|
-    t.string   "name"
-    t.string   "ignored"
-    t.integer  "draft_id"
+    t.string "name"
+    t.string "ignored"
+    t.integer "draft_id"
     t.datetime "published_at"
     t.datetime "created_at"
     t.datetime "updated_at"
